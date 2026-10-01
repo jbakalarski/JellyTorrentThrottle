@@ -92,7 +92,9 @@ def _qb_login() -> bool:
             data={"username": QB_USERNAME, "password": QB_PASSWORD},
             timeout=10,
         )
-        if resp.text.strip().lower() == "ok.":
+        if resp.status_code == 204 or (
+            resp.status_code == 200 and resp.text.strip().lower() == "ok."
+        ):
             _authenticated = True
             log.info("Authenticated with qBittorrent at %s", QB_URL)
             return True
